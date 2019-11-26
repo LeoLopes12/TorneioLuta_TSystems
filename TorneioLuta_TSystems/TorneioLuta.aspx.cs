@@ -14,6 +14,8 @@ namespace TorneioLuta_TSystems
 
     public partial class TorneioLuta : System.Web.UI.Page
     {
+        string wsUrl = "http://177.36.237.87/lutadores/api/competidores";
+
         //Resultados gerais de todos lutadores - Obtido através do JSon
         List<Lutador> resultados = new List<Lutador>();
 
@@ -49,11 +51,16 @@ namespace TorneioLuta_TSystems
             public int idVencedor { get; set; }
             public String nomeVencedor { get; set; }
         }
-
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            CriarObjetos();
+            try
+            {
+                CriarObjetos();
+            }
+            catch (InvalidCastException ex) {
+                AlertaModal("Houve um erro no processo: " + ex.Message, "N");
+            }
         }
 
         void CriarObjetos()
@@ -61,7 +68,7 @@ namespace TorneioLuta_TSystems
 
             WebClient WC = new WebClient();
             WC.Encoding = Encoding.UTF8;
-            var json = WC.DownloadString("http://177.36.237.87/lutadores/api/competidores");
+            var json = WC.DownloadString(wsUrl);
 
             //Cria uma lista com os dados dos lutadores contidos no json
             resultados = JsonConvert.DeserializeObject<List<Lutador>>(json);
