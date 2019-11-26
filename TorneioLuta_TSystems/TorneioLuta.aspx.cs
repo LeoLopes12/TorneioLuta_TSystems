@@ -95,16 +95,10 @@ namespace TorneioLuta_TSystems
             table.BorderColor = System.Drawing.Color.Black;
             table.BorderStyle = System.Web.UI.WebControls.BorderStyle.Solid;
             table.BorderWidth = 1;
-
-            bool vChecked = false;
-
-            if (cont <= 15)
-                vChecked = true;
-
+            
             CheckBox chkLutador = new CheckBox();
             chkLutador.Text = "&nbsp;&nbsp;" + HttpUtility.HtmlDecode(pLutador.nome);
             chkLutador.ID = "chk_" + pLutador.id;
-            chkLutador.Checked = vChecked;
 
             // ***** Adiciona Nome ***** //
             TableCell cellNome = new TableCell();
@@ -185,7 +179,7 @@ namespace TorneioLuta_TSystems
 
             string[] vLutadoresSel = GetSelecionados().Split(',');
             if (vLutadoresSel.Length != 16)
-                AlertaModal("Por favor, é necessário que sejam selecionados exatamente 16 lutadores.");
+                AlertaModal("Por favor, é necessário que sejam selecionados exatamente 16 lutadores.", "N");
             else
             {
 
@@ -214,9 +208,7 @@ namespace TorneioLuta_TSystems
                 vLutadoresSelecionados_Oitavas.Add(vLut);
 
             }
-
-            //AlertaModal(vLutadoresSelecionados_Oitavas[1].nome);
-
+            
         }
 
         Lutador GetDadosLutador(int pId)
@@ -240,23 +232,16 @@ namespace TorneioLuta_TSystems
 
             // ***** OITAVAS - INICIO ***** //
 
-            //Estágio campeonato = 1 -- Significa que está nas oitavas
-            vEstagioCamp = 1;
+                //Estágio campeonato = 1 -- Significa que está nas oitavas
+                vEstagioCamp = 1;
 
-            //Resolver as oitavas...
-            for (int x = 1; x <= 8; x++)
-            {
-                RealizarLuta();
-                if (vInterromperCompeticao == true)
-                    return;
-            }
-            Response.Write("Oitavas<br>");
-
-            //Realiza um loop em cada um dos lutadores
-            foreach (var lutas in resLutas_Oitavas)
-            {
-                Response.Write(lutas.nomeLutador1 + " VS " + lutas.nomeLutador2 + " = " + lutas.nomeVencedor + "<br>");
-            }
+                //Resolver as oitavas...
+                for (int x = 1; x <= 8; x++)
+                {
+                    RealizarLuta();
+                    if (vInterromperCompeticao == true)
+                        return;
+                }
 
             // ***** OITAVAS - FIM ***** //
 
@@ -264,61 +249,43 @@ namespace TorneioLuta_TSystems
 
             // ***** QUARTAS - INICIO ***** //
 
-            vEstagioCamp = 2; //Estágio campeonato = 2 -- Significa que está nas quartas
-            vCompetidoresAdd = "";
+                vEstagioCamp = 2; //Estágio campeonato = 2 -- Significa que está nas quartas
+                vCompetidoresAdd = "";
 
-            //Resolver as quartas...
-            for (int x = 1; x <= 4; x++)
-            {
-                RealizarLuta();
-                if (vInterromperCompeticao == true)
-                    return;
-            }
-            Response.Write("<br>Quartas<br>");
-
-            //Realiza um loop em cada um dos lutadores
-            foreach (var lutas in resLutas_Quartas)
-            {
-                Response.Write(lutas.nomeLutador1 + " VS " + lutas.nomeLutador2 + " = " + lutas.nomeVencedor + "<br>");
-            }
-
+                //Resolver as quartas...
+                for (int x = 1; x <= 4; x++)
+                {
+                    RealizarLuta();
+                    if (vInterromperCompeticao == true)
+                        return;
+                }
+            
             // ***** QUARTAS - FIM ***** //
 
             // ---------- ---------- ---------- ---------- //
 
             // ***** SEMI - INICIO ***** //
 
-            vEstagioCamp = 3; //Estágio campeonato = 3 -- Significa que está na semi final
-            for (int x = 0; x <= 3; x += 2)
-            {
-                RealizarLuta(x);
-                if (vInterromperCompeticao == true)
-                    return;
-            }
-
-            Response.Write("<br>Semi<br>");
-
-            //Realiza um loop em cada um dos lutadores
-            foreach (var lutas in resLutas_Semi)
-            {
-                Response.Write(lutas.nomeLutador1 + " VS " + lutas.nomeLutador2 + " = " + lutas.nomeVencedor + "<br>");
-            }
-
+                vEstagioCamp = 3; //Estágio campeonato = 3 -- Significa que está na semi final
+                for (int x = 0; x <= 3; x += 2)
+                {
+                    RealizarLuta(x);
+                    if (vInterromperCompeticao == true)
+                        return;
+                }
+            
             // ***** SEMI - FIM ***** //
 
             // ***** FINAL - INICIO ***** //
 
-            vEstagioCamp = 4; //Estágio campeonato = 4 -- Significa que está na final
-            RealizarLuta();
-            if (vInterromperCompeticao == true)
-                return;
-
-            Response.Write("<br>Final<br>");
-            Response.Write(resLutas_Final[0].nomeLutador1 + " VS " + resLutas_Final[0].nomeLutador2 + " = " + resLutas_Final[0].nomeVencedor + "<br>");
+                vEstagioCamp = 4; //Estágio campeonato = 4 -- Significa que está na final
+                RealizarLuta();
+                if (vInterromperCompeticao == true)
+                    return;
 
             // ***** FINAL - FIM ***** //
 
-            string tbVencedor = "" +
+            string tbResFinal = "" +
                 "<table align=\"center\" style=\"text-align: center; font-size: 20px; \"> " +
                 "   <tr>" +
                 "       <td>Campeão</td>" +
@@ -328,13 +295,20 @@ namespace TorneioLuta_TSystems
                 "   </tr>" +
                 "</table>";
 
-            AlertaModal(tbVencedor);
+            string vExpand = "N";
+            if (chkMostrarCampeonatoComp.Checked) { 
+                tbResFinal = GetDadosCompeticao() + "<br>" + tbResFinal;
+                vExpand = "S";
+            }
+
+            AlertaModal(tbResFinal, vExpand);
 
         }
 
-        void AlertaModal(string pMsg)
+       
+        void AlertaModal(string pMsg, string vExpand)
         {
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "openModal('" + pMsg + "');", true);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "openModal('" + pMsg + "', '" + vExpand + "');", true);
         }
 
         string GetSelecionados()
@@ -358,6 +332,24 @@ namespace TorneioLuta_TSystems
             return vSelecionados;
         }
 
+        bool DadoIncluso(int pIdLutador, string pIds) {
+
+            if (pIds == "")
+                return false;
+            else
+                pIds = pIds.Substring(0, pIds.Length - 1); //Remove última virgula da variavel...
+
+            //Verifica se o lutador em questão já foi incluso em lutas anteriores.
+            //  ... Método responsável por não repetir lutadores ao buscar o mais jovem.
+            string[] vArr = pIds.Split(',');
+            for (int x = 0; x < vArr.Length; x++) {
+                if (pIdLutador == Convert.ToInt32(vArr[x]))
+                    return true;
+            }
+
+            return false;
+        }
+
         int GetCompetidorMaisJovem(string vExc)
         {
             //Esse método retorna sempre o próximo competidor mais jovem
@@ -374,8 +366,8 @@ namespace TorneioLuta_TSystems
             //Realiza um loop em cada um dos lutadores
             foreach (var lutador in vLutadores)
             {
-
-                if (lutador.idade < idadeMin && vExc.Contains(Convert.ToString(lutador.id)) == false)
+            
+                if (lutador.idade < idadeMin && DadoIncluso(lutador.id, vExc) == false)
                 {
                     idCompetidor = lutador.id;
                     idadeMin = lutador.idade;
@@ -544,7 +536,7 @@ namespace TorneioLuta_TSystems
                                     vInterromperCompeticao = true;
                                     AlertaModal("Não foi possivel concluir o torneio!" +
                                                 "<br>Motivo: Houve um empate entre os lutadores " +
-                                                GetNome(pComp1) + " e " + GetNome(pComp2));
+                                                GetNome(pComp1) + " e " + GetNome(pComp2), "N");
                                     return -1;
 
                                 }
@@ -556,9 +548,7 @@ namespace TorneioLuta_TSystems
 
                 }
             }
-
-            //Response.Write(GetNome(pComp1) + " -- " + vPorcVitorias_Comp1 + "<br>");
-
+            
         }
 
         string GetNome(int pId)
@@ -641,5 +631,179 @@ namespace TorneioLuta_TSystems
             return vRet;
         }
 
+        protected void lnkSelecionar16Pri_Click(object sender, EventArgs e)
+        {
+            LimparCheckBoxes();
+
+            int x = 0;
+            //Realiza um loop em cada um dos lutadores
+            foreach (var lutador in resultados)
+            {
+                
+                CheckBox chkLutador = (CheckBox)Page.FindControl("chk_" + lutador.id);
+                chkLutador.Checked = true;
+                x++;
+
+                if (x == 16) 
+                    return;
+   
+            }
+            
+        }
+
+        int GetMenorId() {
+            int menor = -1;
+            foreach (var lutador in resultados)
+            {
+                if (menor == -1)
+                    menor = lutador.id; //Somente inializando a variavel 
+                else 
+                    if (lutador.id < menor)
+                        menor = lutador.id;
+            }
+            return menor;
+        }
+
+        int GetMaiorId() {
+            int maior = -1;
+            foreach (var lutador in resultados)
+            {
+                if (maior == -1)
+                    maior = lutador.id; //Somente inializando a variavel 
+                else
+                    if (lutador.id > maior)
+                        maior = lutador.id;
+            }
+            return maior;
+
+        }
+
+        protected void lnkSelecionar16Ale_Click(object sender, EventArgs e)
+        {
+            LimparCheckBoxes();
+
+            int x = 0;
+            string vInclusos = "";
+
+            int vMenorId = GetMenorId();
+            int vMaiorId = GetMaiorId();
+            
+            //Realiza um loop em cada um dos lutadores
+            foreach (var lutador in resultados)
+            {
+
+                int vIdRandom = GetId_Aleatorio(vInclusos, vMenorId, vMaiorId);
+                
+                CheckBox chkLutador = (CheckBox)Page.FindControl("chk_" + vIdRandom);
+                chkLutador.Checked = true;
+
+                vInclusos += vIdRandom + ",";
+                x++;
+
+                if (x == 16) 
+                    return;
+   
+            }
+            
+        }
+
+        int GetId_Aleatorio(string pInclusos, int pMenorId, int pMaiorId) {
+            
+            int vNumRandom;
+
+            do
+            {
+                Random randNum = new Random();
+                vNumRandom = randNum.Next(pMenorId, pMaiorId);
+              
+            }
+            while (DadoIncluso(vNumRandom, pInclusos)); //Repetir o processo se o Id já estiver sido sorteado antes...
+
+            return vNumRandom;
+
+        }
+
+        protected void lnkLimparSelecao_Click(object sender, EventArgs e)
+        {
+            LimparCheckBoxes();
+        }
+
+        void LimparCheckBoxes(){
+            //Realiza um loop em cada um dos lutadores
+            foreach (var lutador in resultados)
+            {
+                CheckBox chkLutador = (CheckBox)Page.FindControl("chk_" + lutador.id);
+                if (chkLutador.Checked == true)
+                    chkLutador.Checked = false;
+            }
+        }
+
+        string GetDadosCompeticao()
+        {
+
+            string tbGeral = "";
+            var resLutas = resLutas_Oitavas;
+            var titulo = "Oitavas";
+
+            for (int i = 1; i <= 4; i++)
+            {
+
+                switch (i)
+                {
+                    case 2:
+                        resLutas = resLutas_Quartas;
+                        titulo = "Quartas";
+                        break;
+                    case 3:
+                        resLutas = resLutas_Semi;
+                        titulo = "Semi";
+                        break;
+                    case 4:
+                        resLutas = resLutas_Final;
+                        titulo = "Final";
+                        break;
+                }
+
+                int vColSpan = Convert.ToInt32(resLutas.Count()) + 1;
+                string tbDados = "<table align=\"center\" style=\"text-align: center; font-size: 14px; border: 1px solid silver; \">";
+                tbDados += "<tr>" +
+                           "    <td  style=\"text-align: center; font-size: 22px; \" colspan=" + vColSpan + "> " + titulo + " </td>" +
+                           "</tr>";
+
+                int x = 1;
+                for (x = 1; x <= 2; x++)
+                {
+
+                    string vTitulo = "Combate";
+                    if (x > 1)
+                        if (i < 4)
+                            vTitulo = "Vencedor";
+                        else
+                            vTitulo = "";
+
+                    tbDados += "<tr><td><b>" + vTitulo + "</b></td>";
+
+                    foreach (var lutas in resLutas)
+                    {
+                        string vConteudo = "";
+                        if (x == 1)
+                            vConteudo = lutas.nomeLutador1 + "  <br>VS<br>" + lutas.nomeLutador2;
+                        else
+                            if (i < 4)
+                            vConteudo = lutas.nomeVencedor;
+
+                        tbDados += "<td align=\"center\" > " + vConteudo + "</td>";
+                    }
+                    tbDados += "</tr>";
+                }
+                tbDados += "</table>";
+
+                tbGeral += tbDados + "<br>";
+            }
+
+            return tbGeral;
+        }
+
     }
+
 }

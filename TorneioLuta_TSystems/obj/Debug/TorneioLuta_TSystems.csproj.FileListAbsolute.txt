@@ -19,3 +19,4 @@ C:\WorkSpace\Softwares\TorneioLuta_TSystems\TorneioLuta_TSystems\bin\Microsoft.C
 C:\WorkSpace\Softwares\TorneioLuta_TSystems\TorneioLuta_TSystems\bin\Newtonsoft.Json.xml
 C:\WorkSpace\Softwares\TorneioLuta_TSystems\TorneioLuta_TSystems\obj\Debug\TorneioLuta_TSystems.dll
 C:\WorkSpace\Softwares\TorneioLuta_TSystems\TorneioLuta_TSystems\obj\Debug\TorneioLuta_TSystems.pdb
+C:\WorkSpace\Softwares\TorneioLuta_TSystems\TorneioLuta_TSystems\obj\Debug\TorneioLuta_TSystems.csprojResolveAssemblyReference.cache

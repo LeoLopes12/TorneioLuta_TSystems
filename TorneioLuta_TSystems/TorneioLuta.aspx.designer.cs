@@ -22,31 +22,31 @@ namespace TorneioLuta_TSystems {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// hplSelecionar16Pri control.
+        /// lnkSelecionar16Pri control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplSelecionar16Pri;
+        protected global::System.Web.UI.WebControls.LinkButton lnkSelecionar16Pri;
         
         /// <summary>
-        /// hplSelecionar16Ale control.
+        /// lnkSelecionar16Ale control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplSelecionar16Ale;
+        protected global::System.Web.UI.WebControls.LinkButton lnkSelecionar16Ale;
         
         /// <summary>
-        /// hplSelecionarLimparSel control.
+        /// lnkLimparSelecao control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplSelecionarLimparSel;
+        protected global::System.Web.UI.WebControls.LinkButton lnkLimparSelecao;
         
         /// <summary>
         /// chkMostrarCampeonatoComp control.

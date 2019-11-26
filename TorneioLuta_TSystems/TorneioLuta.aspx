@@ -9,9 +9,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        function openModal(pMsg) {
+        function openModal(pMsg, pExpand) {
             $("#divMsgModal").append("<p>" + pMsg + "</p>");
             $('#myModal').modal({ show: true });
+            
+            if (pExpand == 'S')
+                $('#modDialog').css('width', '80%');
+            else
+                $('#modDialog').css('width', '50%');
         }
         function mostrarOpcoes() {
             var vText = $('#mostrarOpcoes').text();
@@ -60,11 +65,11 @@
 
             <div id="divOpcoes" style="display: none;">
                 <br />
-                <asp:HyperLink ID="hplSelecionar16Pri" runat="server" style="cursor:pointer;">Selecionar 16 primeiros</asp:HyperLink>
+                <asp:LinkButton ID="lnkSelecionar16Pri" runat="server" style="cursor:pointer;" OnClick="lnkSelecionar16Pri_Click">Selecionar 16 primeiros</asp:LinkButton>
                 <br />
-                <asp:HyperLink ID="hplSelecionar16Ale" runat="server" style="cursor:pointer;">Selecionar 16 aleatórios</asp:HyperLink>
+                <asp:LinkButton ID="lnkSelecionar16Ale" runat="server" style="cursor:pointer;" OnClick="lnkSelecionar16Ale_Click">Selecionar 16 aleatórios</asp:LinkButton>
                 <br />
-                <asp:HyperLink ID="hplSelecionarLimparSel" runat="server" style="cursor:pointer;">Limpar seleção</asp:HyperLink>
+                <asp:LinkButton ID="lnkLimparSelecao" runat="server" style="cursor:pointer;" OnClick="lnkLimparSelecao_Click">Limpar Seleção</asp:LinkButton>
                 <br />
                 <asp:CheckBox ID="chkMostrarCampeonatoComp" runat="server" Text="&nbsp;Mostrar campeonato completo" />
             </div>
@@ -77,7 +82,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
+            <div id="modDialog" class="modal-dialog" style="width: 1600px;" >
 
                 <!-- Modal content-->
                 <div class="modal-content">
