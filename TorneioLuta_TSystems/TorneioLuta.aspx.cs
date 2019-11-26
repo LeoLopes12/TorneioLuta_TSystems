@@ -24,11 +24,32 @@ namespace TorneioLuta_TSystems
         List<Lutas> resLutas_Quartas = new List<Lutas>();
         List<Lutas> resLutas_Semi = new List<Lutas>();
         List<Lutas> resLutas_Final = new List<Lutas>();
-
+        
         int vEstagioCamp = 0;
         string vCompetidoresAdd = "";
-
         bool vInterromperCompeticao = false;
+        
+        public class Lutador
+        {
+
+            public int id { get; set; }
+            public string nome { get; set; }
+            public int idade { get; set; }
+            public string[] artesMarciais { get; set; }
+            public int lutas { get; set; }
+            public int derrotas { get; set; }
+            public int vitorias { get; set; }
+
+        }
+
+        public class Lutas
+        {
+            public String nomeLutador1 { get; set; }
+            public String nomeLutador2 { get; set; }
+            public int idVencedor { get; set; }
+            public String nomeVencedor { get; set; }
+        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -126,52 +147,9 @@ namespace TorneioLuta_TSystems
             rowDados.Cells.Add(cellDados);
 
             table.Rows.Add(rowDados);
-
-            /*
-                // ***** Adiciona Nome ***** //
-                TableCell cellNome = new TableCell();
-                cellNome.BackColor = System.Drawing.Color.LightBlue;
-                cellNome.HorizontalAlign = HorizontalAlign.Center;
-                cellNome.Controls.Add(chkLutador);
             
-                TableRow rowNome = new TableRow();
-                rowNome.Cells.Add(cellNome);
-
-                table.Rows.Add(rowNome);
-
-                // ***** Adiciona Idade ***** //
-                TableCell cellIdade = new TableCell();
-                cellIdade.Text = "Idade: " + pLutador.idade;
-
-                TableRow rowIdade = new TableRow();
-                rowIdade.Cells.Add(cellIdade);
-
-                table.Rows.Add(rowIdade);
-            */
-
             return table;
 
-        }
-
-        public class Lutador
-        {
-
-            public int id { get; set; }
-            public string nome { get; set; }
-            public int idade { get; set; }
-            public string[] artesMarciais { get; set; }
-            public int lutas { get; set; }
-            public int derrotas { get; set; }
-            public int vitorias { get; set; }
-
-        }
-
-        public class Lutas
-        {
-            public String nomeLutador1 { get; set; }
-            public String nomeLutador2 { get; set; }
-            public int idVencedor { get; set; }
-            public String nomeVencedor { get; set; }
         }
 
         protected void BtnVerificarVencedor_Click(object sender, EventArgs e)
